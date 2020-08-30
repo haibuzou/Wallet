@@ -11,4 +11,5 @@ class CreateWalletActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_wallet)
     }
 
+
 }

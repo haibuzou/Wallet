@@ -2,7 +2,9 @@ package com.haibuzou.wallet.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.haibuzou.wallet.WalletApplication
+import com.haibuzou.wallet.dao.WalletDaoManager
 import com.haibuzou.wallet.domain.ETHWallet
+import com.haibuzou.wallet.kotlin.md5
 import org.bitcoinj.crypto.ChildNumber
 import org.bitcoinj.crypto.HDKeyDerivation
 import org.bitcoinj.wallet.DeterministicSeed
@@ -19,9 +21,22 @@ class CreateWalletViewModel : ViewModel() {
         var ETH_JAXX_TYPE = "m/44'/60'/0'/0/0"
     }
 
-    //创建钱包
-    fun createWallet() {
-
+    //通过助记词导入钱包
+    fun importWalletFromMnemonic(path: String, list: List<String> , pwd: String) : ETHWallet? {
+        if (!path.startsWith("m") && !path.startsWith("M")) {
+            return null
+        }
+        val pathArray = path.split("/".toRegex()).toTypedArray()
+        if (pathArray.size <= 1) {
+            return null
+        }
+        val passphrase = ""
+        val creationTimeSeconds = System.currentTimeMillis() / 1000
+        val ds = DeterministicSeed(list, null, passphrase, creationTimeSeconds)
+        return _generaWallet(generateNewWalletName(), ds,
+            pathArray,
+            pwd
+        )
     }
 
     private fun _generaWallet(walletName: String?, ds: DeterministicSeed, pathArray: Array<String>, pwd: String?): ETHWallet? {
@@ -47,14 +62,14 @@ class CreateWalletViewModel : ViewModel() {
             dkKey = HDKeyDerivation.deriveChildKey(dkKey, childNumber)
         }
         val keyPair = ECKeyPair.create(dkKey.privKeyBytes)
-        val ethWallet = generateWallet(walletName, pwd, keyPair)
-        if (ethWallet != null) {
-            ethWallet.setMnemonic(convertMnemonicList(mnemonic))
-        }
+        var mnemonicWords = convertMnemonicList(mnemonic)
+        val ethWallet = generateWallet(walletName, pwd, keyPair, mnemonicWords)
+        ethWallet?.mnemonic = mnemonicWords
+
         return ethWallet
     }
 
-    private fun generateWallet(walletName: String?, pwd: String?, ecKeyPair: ECKeyPair): ETHWallet? {
+    private fun generateWallet(walletName: String?, pwd: String?, ecKeyPair: ECKeyPair, mnemonicWords: String?): ETHWallet? {
         val walletFile: WalletFile
         walletFile = try {
             Wallet.create(pwd, ecKeyPair, 1024, 1) // WalletUtils. .generateNewWalletFile();
@@ -62,37 +77,34 @@ class CreateWalletViewModel : ViewModel() {
             e.printStackTrace()
             return null
         }
-        val publicKey = ecKeyPair.publicKey
-        val s = publicKey.toString()
-        val wallet_dir = WalletApplication.walletApplicationInstance?.getExternalCacheDir().toString() + "/downloads/"
-        val keystorePath = "keystore_$walletName.json"
+        val wallet_dir = WalletApplication.getInstance?.externalCacheDir?.path
         val destination = File(wallet_dir, "keystore_$walletName.json")
-
-        //目录不存在则创建目录，创建不了则报错
-//    if (!createParentDir(destination)) {
-//        return null
-//    }
-//    try {
-//       objectMapper.writeValue(destination, walletFile)
-//    } catch (e: IOException) {
-//        e.printStackTrace()
-//        return null
-//    }
-        val ethWallet = ETHWallet(Keys.toChecksumAddress(walletFile.address))
-        ethWallet.setName(walletName)
-        ethWallet.setAddress(Keys.toChecksumAddress(walletFile.address))
-        ethWallet.setKeystorePath(destination.absolutePath)
-        ethWallet.setPassword(Md5Utils.md5(pwd))
-        return ethWallet
+        return ETHWallet(Math.random().toLong(), Keys.toChecksumAddress(walletFile.address),walletName,pwd?.md5(),destination.absolutePath,mnemonicWords,false)
     }
 
-    private fun convertMnemonicList(mnemonics: List<String>): String? {
+    private fun convertMnemonicList(mnemonics: List<String>?): String? {
+        if (mnemonics.isNullOrEmpty()) {
+            return ""
+        }
+
         val sb = StringBuilder()
         for (mnemonic in mnemonics) {
             sb.append(mnemonic)
             sb.append(" ")
         }
         return sb.toString()
+    }
+
+    private fun generateNewWalletName(): String? {
+        var letter1 = (Math.random() * 26 + 97).toInt().toChar()
+        var letter2 = (Math.random() * 26 + 97).toInt().toChar()
+        var walletName = "$letter1$letter2-新钱包"
+        while (WalletDaoManager.walletNameChecking(walletName)) {
+            letter1 = (Math.random() * 26 + 97).toInt().toChar()
+            letter2 = (Math.random() * 26 + 97).toInt().toChar()
+            walletName = "$letter1$letter2-新钱包"
+        }
+        return walletName
     }
 
 }

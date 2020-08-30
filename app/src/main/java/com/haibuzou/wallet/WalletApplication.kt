@@ -7,11 +7,11 @@ import com.haibuzou.wallet.dao.AppDatabase
 
 class WalletApplication : Application() {
 
-    var walletDB: RoomDatabase? = null
+    var walletDB: AppDatabase? = null
 
     override fun onCreate() {
         super.onCreate()
-        walletApplicationInstance = this
+        getInstance = this
         walletDB = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java, "database-name"
@@ -20,7 +20,7 @@ class WalletApplication : Application() {
 
     companion object {
         @JvmStatic
-        var walletApplicationInstance : WalletApplication? = null
+        var getInstance : WalletApplication? = null
     }
 
 }
