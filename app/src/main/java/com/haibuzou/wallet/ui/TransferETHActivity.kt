@@ -4,15 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.haibuzou.wallet.R
 
-class ImportWalletActivity : AppCompatActivity() {
-
-    companion object {
-
-    }
+class TransferETHActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_import_wallet)
+        setContentView(R.layout.activity_transfer_eth)
 
     }
 }

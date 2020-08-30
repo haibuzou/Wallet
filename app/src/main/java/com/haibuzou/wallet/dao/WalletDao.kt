@@ -4,20 +4,20 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.haibuzou.wallet.domain.Wallet
+import com.haibuzou.wallet.domain.ETHWallet
 
 @Dao
 interface WalletDao {
-    @Query("SELECT * FROM wallet")
-    fun getAll(): List<Wallet>
+    @Query("SELECT * FROM ethwallet")
+    fun getAll(): List<ETHWallet>
 
-    @Query("SELECT * FROM wallet WHERE id IN (:walletIds)")
-    fun loadAllByIds(walletIds: IntArray): List<Wallet>
+    @Query("SELECT * FROM ethwallet WHERE id IN (:walletIds)")
+    fun loadAllByIds(walletIds: IntArray): List<ETHWallet>
 
     @Insert
-    fun insertAll(vararg wallets: Wallet)
+    fun insertAll(vararg ETHWallets: ETHWallet)
 
     @Delete
-    fun delete(wallet: Wallet)
+    fun delete(ETHWallet: ETHWallet)
 
 }
