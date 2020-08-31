@@ -28,13 +28,13 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_import_wallet"
             android:layout_width="match_parent"
-            android:background="@color/negativeButtonColor"
+            android:layout_height="50dp"
             android:layout_marginTop="6dp"
             android:alpha="60"
+            android:background="@color/negativeButtonColor"
             android:text="导入钱包"
-            android:textSize="15dp"
             android:textColor="@color/colorPrimaryWhite"
-            android:layout_height="50dp"/>
+            android:textSize="15dp" />
 
     </LinearLayout>
 

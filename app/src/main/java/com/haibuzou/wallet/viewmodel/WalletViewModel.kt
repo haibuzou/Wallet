@@ -14,7 +14,7 @@ import org.web3j.crypto.Wallet
 import org.web3j.crypto.WalletFile
 import java.io.File
 
-class CreateWalletViewModel : ViewModel() {
+class WalletViewModel : ViewModel() {
 
     companion object {
         @JvmStatic
