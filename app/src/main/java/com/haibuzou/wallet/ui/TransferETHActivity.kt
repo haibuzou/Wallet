@@ -11,4 +11,8 @@ class TransferETHActivity : AppCompatActivity() {
         setContentView(R.layout.activity_transfer_eth)
 
     }
+
+    fun initView() {
+
+    }
 }
