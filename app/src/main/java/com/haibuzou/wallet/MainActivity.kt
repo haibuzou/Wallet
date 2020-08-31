@@ -5,7 +5,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.haibuzou.wallet.ui.ImportWalletActivity
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         createWalletBtn.setOnClickListener {
-            Toast.makeText(this, "敬请期待", Toast.LENGTH_LONG)
+            Toast.makeText(this, "敬请期待", Toast.LENGTH_LONG).show()
         }
     }
 
