@@ -1,11 +1,13 @@
 package com.haibuzou.wallet
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.haibuzou.wallet.ui.ImportWalletActivity
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var importWalletBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,7 +16,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initView() {
-        btn_import_wallet.setOnClickListener {
+        importWalletBtn = findViewById(R.id.btn_import_wallet)
+        importWalletBtn.setOnClickListener {
             ImportWalletActivity.gotoImportWallet(this)
         }
     }

@@ -16,13 +16,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.CreateWalletActivity">
-
-        </activity>
-
-        <activity android:name=".ui.BackUpWalletActivity">
-
-        </activity>
+        <activity android:name=".ui.ImportWalletActivity"/>
+        <activity android:name=".ui.TransferETHActivity"/>
+        <activity android:name=".ui.BackUpWalletActivity"/>
+        <activity android:name=".ui.CreateWalletActivity"/>
+        <activity android:name=".ui.QRCodeScanActivity"/>
+        <activity android:name=".ui.WalletListActivity"/>
 
     </application>
 
