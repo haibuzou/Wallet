@@ -3,6 +3,7 @@ package com.haibuzou.wallet.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.haibuzou.wallet.R
@@ -11,6 +12,7 @@ class WalletDetailActivity: AppCompatActivity() {
 
     lateinit var walletNameTxt: TextView
     var walletName: String? = null
+    lateinit var transferBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,13 +28,17 @@ class WalletDetailActivity: AppCompatActivity() {
     fun initView() {
         walletNameTxt = findViewById(R.id.tv_wallet_name)
         walletNameTxt.text = walletName
+        transferBtn = findViewById(R.id.btn_transfer)
+        transferBtn.setOnClickListener {
+            TransferETHActivity.gotoTransfer(this, walletName)
+        }
     }
 
     companion object {
 
         val WALLET_NAME = "wallet_name"
 
-        fun gotoWalletDetail(context: Context, walletName: String) {
+        fun gotoWalletDetail(context: Context, walletName: String?) {
             context.startActivity(Intent(context, WalletDetailActivity::class.java).apply {
                 putExtra(WALLET_NAME, walletName)
             })

@@ -56,7 +56,7 @@ class WalletListActivity : AppCompatActivity() {
         override fun getItemViewType(position: Int): Int = WALLET_TYPE
     }
 
-    inner class WalletViewHolder(var rootView: View) : RecyclerView.ViewHolder(rootView), View.OnClickListener {
+    inner class WalletViewHolder(var rootView: View) : RecyclerView.ViewHolder(rootView) {
 
         var walletNameTxt: TextView
         var walletName: String? = null
@@ -68,11 +68,9 @@ class WalletListActivity : AppCompatActivity() {
         fun bindViewHolder(walletModel: WalletModel) {
             walletName = walletModel.walletName
             walletNameTxt.text = walletModel.walletName
-            walletNameTxt.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View?) {
-
+            walletNameTxt.setOnClickListener {
+                WalletDetailActivity.gotoWalletDetail(this@WalletListActivity, walletName)
+            }
         }
     }
 
