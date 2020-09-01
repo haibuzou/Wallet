@@ -59,12 +59,14 @@ class WalletListActivity : AppCompatActivity() {
     inner class WalletViewHolder(var rootView: View) : RecyclerView.ViewHolder(rootView), View.OnClickListener {
 
         var walletNameTxt: TextView
+        var walletName: String? = null
 
         init {
             walletNameTxt = rootView.findViewById(R.id.tv_wallet_name)
         }
 
         fun bindViewHolder(walletModel: WalletModel) {
+            walletName = walletModel.walletName
             walletNameTxt.text = walletModel.walletName
             walletNameTxt.setOnClickListener(this)
         }

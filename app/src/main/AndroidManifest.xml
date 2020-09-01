@@ -22,6 +22,7 @@
         <activity android:name=".ui.CreateWalletActivity"/>
         <activity android:name=".ui.QRCodeScanActivity"/>
         <activity android:name=".ui.WalletListActivity"/>
+        <activity android:name=".ui.WalletDetailActivity"/>
 
     </application>
 
